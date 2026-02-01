@@ -27,14 +27,6 @@ Cross-platform plugin providing comprehensive OMO configuration management with 
 
 ### For LLM Agents
 
-Fetch the installation guide and follow it:
-
-```bash
-curl -s https://raw.githubusercontent.com/shawnmarck/omo-config-manager/refs/heads/master/docs/guide/installation.md
-```
-
-### For Humans
-
 Copy and paste this prompt to your LLM agent (Claude Code, OpenCode, etc.):
 
 ```
@@ -42,11 +34,19 @@ Install and configure omo-config-manager by following the instructions here:
 https://raw.githubusercontent.com/shawnmarck/omo-config-manager/refs/heads/master/docs/guide/installation.md
 ```
 
+### For Humans
+
+Fetch the installation guide and follow it:
+
+```bash
+curl -s https://raw.githubusercontent.com/shawnmarck/omo-config-manager/refs/heads/master/docs/guide/installation.md
+```
+
 Or read the [Installation Guide](docs/guide/installation.md) directly—but **we strongly recommend letting an agent handle it. Humans make mistakes.**
 
 ## Uninstallation
 
-To remove omo-config-manager:
+### OpenCode
 
 1. **Remove the plugin from your OpenCode config**  
 Edit `~/.config/opencode/opencode.json` (or `opencode.jsonc`) and remove the plugin path from the `plugin` array. The path will be either:
@@ -65,14 +65,28 @@ jq '.plugin = [.plugin[] | select(. != "file:~/.config/opencode/plugin/omo-confi
 # Linux/macOS
 rm -rf ~/.config/opencode/plugin/omo-config-manager
 
-# Windows
-rmdir /s "%APPDATA%\opencode\plugin\omo-config-manager"
+# Windows (PowerShell)
+Remove-Item -Recurse -Force "$env:APPDATA\opencode\plugin\omo-config-manager"
 ```
 
-3. **Verify removal**  
+### Claude Code
+
 ```bash
-opencode --version
-# Plugin should no longer be loaded
+# Uninstall the plugin
+claude plugin uninstall omo-config-manager@omo-local
+
+# Remove the marketplace
+claude plugin marketplace remove omo-local
+
+# Delete the cloned files (optional)
+rm -rf ~/.claude/plugins/marketplaces/omo-config-manager
+```
+
+**Windows (PowerShell):**
+```powershell
+claude plugin uninstall omo-config-manager@omo-local
+claude plugin marketplace remove omo-local
+Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\plugins\marketplaces\omo-config-manager"
 ```
 
 ## Usage

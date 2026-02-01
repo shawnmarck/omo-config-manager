@@ -24,16 +24,40 @@ case "$OS" in
   *)          PLATFORM="unknown" ;;
 esac
 
-# Detect harness (check for OpenCode or Claude Code)
+# Detect which harnesses are available
+HAVE_OPENCODE=false
+HAVE_CLAUDE=false
+
 if command -v opencode &> /dev/null; then
+  HAVE_OPENCODE=true
+fi
+
+if [ -d "$HOME/.claude" ] || [ -d "$HOME/.config/claude" ]; then
+  HAVE_CLAUDE=true
+fi
+
+# Determine installation target
+if [ "$HAVE_OPENCODE" = true ] && [ "$HAVE_CLAUDE" = true ]; then
+  echo "Both OpenCode and Claude Code detected."
+  echo "Install for: (1) OpenCode, (2) Claude Code, (3) Both"
+  read -r CHOICE
+  case "$CHOICE" in
+    1) HARNESS="opencode" ;;
+    2) HARNESS="claude-code" ;;
+    3) HARNESS="both" ;;
+    *) echo "Invalid choice"; exit 1 ;;
+  esac
+elif [ "$HAVE_OPENCODE" = true ]; then
   HARNESS="opencode"
-elif [ -d "$HOME/.claude" ] || [ -d "$HOME/.config/claude" ]; then
+elif [ "$HAVE_CLAUDE" = true ]; then
   HARNESS="claude-code"
 else
   HARNESS="unknown"
+  echo "Neither OpenCode nor Claude Code detected."
+  exit 1
 fi
 
-echo "Platform: $PLATFORM, Harness: $HARNESS"
+echo "Platform: $PLATFORM, Installing for: $HARNESS"
 ```
 
 **Set paths based on platform:**
@@ -56,8 +80,10 @@ fi
 
 ```bash
 # Security note: this installs from source. Prefer cloning a tagged release if available.
+
 # Install for OpenCode
-if [ "$HARNESS" = "opencode" ]; then
+if [ "$HARNESS" = "opencode" ] || [ "$HARNESS" = "both" ]; then
+  echo "Installing for OpenCode..."
   mkdir -p "$(dirname "$OC_PLUGIN_DIR")"
   git clone --depth 1 https://github.com/shawnmarck/omo-config-manager.git "$OC_PLUGIN_DIR"
   cd "$OC_PLUGIN_DIR/plugins/omo-config-manager"
@@ -69,17 +95,19 @@ if [ "$HARNESS" = "opencode" ]; then
   else
     echo "{\"plugin\":[\"file:$OC_PLUGIN_DIR\"]}" > "$OC_CONFIG_FILE"
   fi
+  echo "OpenCode installation complete."
 fi
 
 # Install for Claude Code
-if [ "$HARNESS" = "claude-code" ]; then
-  CC_MARKETPLACE_DIR="$HOME/.claude/plugins/marketplaces/omo-config-manager"
+if [ "$HARNESS" = "claude-code" ] || [ "$HARNESS" = "both" ]; then
+  echo "Installing for Claude Code..."
   mkdir -p "$(dirname "$CC_MARKETPLACE_DIR")"
   git clone --depth 1 https://github.com/shawnmarck/omo-config-manager.git "$CC_MARKETPLACE_DIR"
   cd "$CC_MARKETPLACE_DIR/plugins/omo-config-manager"
   npm ci && npm run build
   claude plugin marketplace add "$CC_MARKETPLACE_DIR"
   claude plugin install omo-config-manager@omo-local
+  echo "Claude Code installation complete."
 fi
 ```
 
