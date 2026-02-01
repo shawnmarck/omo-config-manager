@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "omo-local",
+  "description": "OMO configuration management plugin for OpenCode and Claude Code",
+  "owner": {
+    "name": "shawnmarck",
+    "email": "noreply@omo-config-manager.dev"
+  },
+  "plugins": [
+    {
+      "name": "omo-config-manager",
+      "description": "Cross-platform plugin providing OMO configuration management tool with /omo-config command for managing agents, categories, skills, and system configuration",
+      "version": "0.1.0",
+      "author": {
+        "name": "shawnmarck",
+        "email": "noreply@omo-config-manager.dev"
+      },
+      "source": "./plugins/omo-config-manager",
+      "category": "productivity"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "omo-config-manager",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "description": "Cross-platform plugin providing OMO configuration management tool for OpenCode and Claude Code",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Error: no linter specified\" && exit 1"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "skills",
+    ".claude-plugin"
+  ],
+  "dependencies": {
+    "@opencode-ai/plugin": "1.1.44"
+  },
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.2",
+    "@types/node": "^22.13.9",
+    "typescript": "^5.8.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shawnmarck/omo-config-manager.git"
+  },
+  "keywords": [
+    "opencode",
+    "oh-my-opencode",
+    "plugin",
+    "config",
+    "omo"
+  ],
+  "author": "shawnmarck <noreply@omo-config-manager.dev>",
+  "homepage": "https://github.com/shawnmarck/omo-config-manager"
+}

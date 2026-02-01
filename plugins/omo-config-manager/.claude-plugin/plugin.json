@@ -1,0 +1,8 @@
+{
+  "name": "omo-config-manager",
+  "description": "OMO configuration management tool with /omo-config command for managing agents, categories, skills, and system configuration",
+  "author": {
+    "name": "shawnmarck",
+    "email": "noreply@omo-config-manager.dev"
+  }
+}
