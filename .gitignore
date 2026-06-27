@@ -3,3 +3,14 @@ dist/
 *.log
 .DS_Store
 *.tsbuildinfo
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# AI/agent local artifacts
+.cursor/
+.agent/
+agent-transcripts/
+*.snapshot.json

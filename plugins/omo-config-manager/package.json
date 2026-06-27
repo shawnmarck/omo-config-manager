@@ -26,7 +26,7 @@
     ".claude-plugin"
   ],
   "dependencies": {
-    "@opencode-ai/plugin": "1.1.44"
+    "@opencode-ai/plugin": "1.17.11"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
